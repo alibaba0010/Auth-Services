@@ -5,7 +5,10 @@
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/gateway/tsconfig.app.json"
+    "tsConfigPath": "apps/gateway/tsconfig.app.json",
+    "watchOptions": {
+      "ignored": ["**/node_modules/**"]
+    }
   },
   "monorepo": true,
   "root": "apps/gateway",
