@@ -8,9 +8,6 @@ export class RegisterResponse {
 
   @Field(() => Errortype, { nullable: true })
   error?: Errortype;
-
-  @Field()
-  accessToken: string;
 }
 
 @ObjectType()

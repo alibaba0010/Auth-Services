@@ -36,6 +36,11 @@ export class UsersService {
   }
   // get all users
   async getUsers() {
+    const users = [
+      { id: 1, name: 'John Doe', email: 'john.doe@example.com' },
+      { id: 2, name: 'Jane Doe', email: 'jane.doe@example.com' },
+    ];
+    return users;
     // return await this.usersRepository.find();
   }
 }
