@@ -1,21 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-
-@ObjectType()
-export class User {
-  id: string;
-  name: string;
-  email: string;
-}
-@ObjectType()
-export class Errortype {
-  @Field()
-  message: string;
-
-  @Field({ nullable: true })
-  code?: string;
-
-  //   statusCode: number;
-}
+import { Errortype, User } from '../entities/user.entity';
 
 @ObjectType()
 export class RegisterResponse {
