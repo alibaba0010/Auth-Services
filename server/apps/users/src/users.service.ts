@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto, RegisterDto } from './dto/user.dto';
+import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
@@ -10,6 +11,7 @@ export class UsersService {
 
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly prisma: PrismaService,
   ) {
     // register users
   }
@@ -31,16 +33,11 @@ export class UsersService {
     //   throw new Error('Invalid credentials');
     // }
     const user = { email, password };
-    const accessToken = await this.jwtService.sign({ id: user.id });
-    return { user, accessToken };
+    // const accessToken = await this.jwtService.sign({ id: user.id });
+    return { user };
   }
   // get all users
   async getUsers() {
-    const users = [
-      { id: 1, name: 'John Doe', email: 'john.doe@example.com' },
-      { id: 2, name: 'Jane Doe', email: 'jane.doe@example.com' },
-    ];
-    return users;
-    // return await this.usersRepository.find();
+    return this.prisma.users.findMany({});
   }
 }
