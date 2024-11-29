@@ -7,7 +7,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  async getHello(request: Request, response: Response): object {
-    return await this.usersService.register();
+  async getHello(request: Request, response: Response): Promise<object> {
+    return await this.usersService.getUsers();
   }
 }
