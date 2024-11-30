@@ -5,6 +5,7 @@ import { LoginDto, RegisterDto } from './dto/user.dto';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { Response } from 'express';
 import * as bcrypt from 'bcryptjs';
+import { EmailService } from './email/email.service';
 interface UserData {
   name: string;
   email: string;
@@ -19,6 +20,7 @@ export class UsersService {
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly prisma: PrismaService,
+    private readonly emailService: EmailService,
   ) {
     // register users
   }
@@ -56,8 +58,31 @@ export class UsersService {
     // response.status(201).json({ message: 'User created successfully' });
     const user = { name, email, contact, password: hashedPassword };
     const { activationToken } = await this.createToken(user);
+    const emailOptions = {
+      email,
+      subject: 'Activate your account with this token',
+      name,
+      activationToken,
+      template: './activation-email',
+    };
+    await this.emailService.sendEmail(emailOptions);
     console.log('Activation token: ' + activationToken);
-    await this.prisma.users.create({ user });
+    // await this.prisma.users.create({ user });
+    return { user, response };
+  }
+  // activate user account
+  async activateUserAccount(activationToken: string, response: Response) {
+    const newUser: { user: UserData; activationToken: string } =
+      await this.jwtService.verify(activationToken, {
+        secret: this.configService.get<string>('JWT_SEC'),
+      });
+    if (newUser.activationToken !== activationToken) {
+      throw new BadRequestException('Invalid Activation Token ');
+    }
+    const { name, email, contact, password } = newUser.user;
+    const user = await this.prisma.users.create({
+      data: { name: name, email, contact, password },
+    });
     return { user, response };
   }
   // CREATE ACTIVATION TOKEN

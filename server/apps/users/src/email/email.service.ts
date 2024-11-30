@@ -5,7 +5,7 @@ type emailOptions = {
   subject: string;
   name: string;
   email: string;
-  activationCode: number;
+  activationToken: string;
   template: string;
 };
 @Injectable()
@@ -15,13 +15,13 @@ export class EmailService {
     private readonly configService: ConfigService,
   ) {}
   async sendEmail(options: emailOptions): Promise<any> {
-    const { subject, name, email, activationCode, template } = options;
+    const { subject, name, email, activationToken, template } = options;
     await this.mailerService.sendMail({
       // from: this.configService.get('EMAIL_USER'),
       to: email,
       subject,
       template,
-      context: { name, activationCode },
+      context: { name, activationToken },
     });
   }
 }
