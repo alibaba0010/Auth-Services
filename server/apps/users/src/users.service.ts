@@ -4,7 +4,13 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginDto, RegisterDto } from './dto/user.dto';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { Response } from 'express';
-
+import * as bcrypt from 'bcryptjs';
+interface UserData {
+  name: string;
+  email: string;
+  contact: number;
+  password: string;
+}
 @Injectable()
 export class UsersService {
   constructor(
@@ -17,7 +23,7 @@ export class UsersService {
     // register users
   }
   async register(registerDto: RegisterDto, response: Response) {
-    const { name, email, password } = registerDto;
+    const { name, email, contact, password } = registerDto;
     console.log(`Name: ${name} email: ${email} password: ${password}`);
     // check email exists
     const existingUser = await this.prisma.users.findUnique({
@@ -26,23 +32,46 @@ export class UsersService {
     if (existingUser) {
       throw new BadRequestException('Email already exists');
     }
+    // check contact number exists
+    const existingContact = await this.prisma.users.findUnique({
+      where: { contact },
+    });
+    if (existingContact) {
+      throw new BadRequestException('Contact number already exists');
+    }
+
     // hash password
     // const hashedPassword = await this.configService.get('HASH_SECRET').then(
     //   (secret) => bcrypt.hash(password, secret),
     // );
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     // create new user in database and return user data and response object
     // const user = await this.usersRepository.create({
     //   name,
     //   email,
     //   password: hashedPassword,
     // });
+
     // response.status(201).json({ message: 'User created successfully' });
-    // return { user, response };
-    const user = await this.prisma.users.create({
-      data: { name, email, password },
-    });
-    console.log('User created successfully:', user);
+    const user = { name, email, contact, password: hashedPassword };
+    const { activationToken } = await this.createToken(user);
+    console.log('Activation token: ' + activationToken);
+    await this.prisma.users.create({ user });
     return { user, response };
+  }
+  // CREATE ACTIVATION TOKEN
+  private async createToken(user: UserData) {
+    const activationToken = Math.floor(1000 + Math.random() * 9000).toString();
+    const token = this.jwtService.sign(
+      { user, activationToken },
+      {
+        secret: this.configService.get<string>('JWT_SEC'),
+        // expiresIn: this.configService.get<number>('JWT_LIFETIME'),
+        expiresIn: '5m',
+      },
+    );
+    return { token, activationToken };
   }
   // LOGIN USER
   async login(loginDto: LoginDto) {

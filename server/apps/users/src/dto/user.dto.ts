@@ -24,11 +24,10 @@ export class RegisterDto {
   contact: number;
 
   @Field()
-  @IsNotEmpty({ message: 'Address is required' })
   @IsString({ message: 'Address must be a string' })
   @MinLength(10, { message: 'Address must be at least 10 characters' })
   @MaxLength(200, { message: 'Address cannot exceed 200 characters' })
-  address: string;
+  address?: string | null;
 
   @Field()
   @IsNotEmpty({ message: 'Password is required' })
