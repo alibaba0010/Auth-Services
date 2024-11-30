@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { LoginDto, RegisterDto } from './dto/user.dto';
+import { ActivationDto, LoginDto, RegisterDto } from './dto/user.dto';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { Response } from 'express';
 import * as bcrypt from 'bcryptjs';
@@ -26,7 +26,6 @@ export class UsersService {
   }
   async register(registerDto: RegisterDto, response: Response) {
     const { name, email, contact, password } = registerDto;
-    console.log(`Name: ${name} email: ${email} password: ${password}`);
     // check email exists
     const existingUser = await this.prisma.users.findUnique({
       where: { email },
@@ -68,10 +67,11 @@ export class UsersService {
     await this.emailService.sendEmail(emailOptions);
     console.log('Activation token: ' + activationToken);
     // await this.prisma.users.create({ user });
-    return { user, response };
+    return { activation_token: activationToken, response };
   }
   // activate user account
-  async activateUserAccount(activationToken: string, response: Response) {
+  async activateUserAccount(activationDto: ActivationDto, response: Response) {
+    const { activationToken } = activationDto;
     const newUser: { user: UserData; activationToken: string } =
       await this.jwtService.verify(activationToken, {
         secret: this.configService.get<string>('JWT_SEC'),
@@ -80,6 +80,7 @@ export class UsersService {
       throw new BadRequestException('Invalid Activation Token ');
     }
     const { name, email, contact, password } = newUser.user;
+    console.log(`Name: ${name} email: ${email} password: ${password}`);
     const user = await this.prisma.users.create({
       data: { name: name, email, contact, password },
     });

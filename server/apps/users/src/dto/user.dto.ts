@@ -36,6 +36,14 @@ export class RegisterDto {
 }
 
 @InputType()
+export class ActivationDto {
+  // add activationToken field
+  @Field()
+  @IsNotEmpty({ message: 'Activation token is required' })
+  activationToken: string;
+}
+
+@InputType()
 export class LoginDto {
   @Field()
   @IsNotEmpty({ message: 'Email is required' })

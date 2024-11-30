@@ -1,8 +1,12 @@
-import { BadRequestException, UseFilters } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UsersService } from './users.service';
-import { LoginResponse, RegisterResponse } from './types/users.types';
-import { LoginDto, RegisterDto } from './dto/user.dto';
+import {
+  ActivationResponse,
+  LoginResponse,
+  RegisterResponse,
+} from './types/users.types';
+import { ActivationDto, LoginDto, RegisterDto } from './dto/user.dto';
 import { Response } from 'express';
 import { User } from './entities/user.entity';
 
@@ -18,10 +22,25 @@ export class UsersResolvers {
     if (!registerDto.name || !registerDto.email || !registerDto.password) {
       throw new BadRequestException('Please fill all fields');
     }
-    const user = await this.usersService.register(registerDto, context.res);
+    const { activation_token } = await this.usersService.register(
+      registerDto,
+      context.res,
+    );
+    return { activation_token };
+  }
+  z;
+  // acctivate user
+  @Mutation(() => RegisterResponse)
+  async activateUserAccount(
+    @Args('activationToken') activationDto: ActivationDto,
+    @Context() context: { res: Response },
+  ): Promise<ActivationResponse> {
+    const user = await this.usersService.activateUserAccount(
+      activationDto,
+      context.res,
+    );
     return { user };
   }
-
   // login user
   @Mutation(() => LoginResponse)
   async loginUser(
