@@ -11,6 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { UsersResolvers } from './users.resolver';
 import { EmailModule } from './email/email.module';
+import { EmailModule } from './email/email.module';
 @Module({
   imports: [
     GraphQLModule.forRoot<ApolloFederationDriverConfig>({
