@@ -39,6 +39,9 @@ export class RegisterDto {
 export class ActivationDto {
   // add activationToken field
   @Field()
+  token: string;
+
+  @Field()
   @IsNotEmpty({ message: 'Activation token is required' })
   activationToken: string;
 }

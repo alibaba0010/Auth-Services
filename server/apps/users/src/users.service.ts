@@ -56,7 +56,7 @@ export class UsersService {
 
     // response.status(201).json({ message: 'User created successfully' });
     const user = { name, email, contact, password: hashedPassword };
-    const { activationToken } = await this.createToken(user);
+    const { token, activationToken } = await this.createToken(user);
     const emailOptions = {
       email,
       subject: 'Activate your account with this token',
@@ -67,13 +67,13 @@ export class UsersService {
     await this.emailService.sendEmail(emailOptions);
     console.log('Activation token: ' + activationToken);
     // await this.prisma.users.create({ user });
-    return { activation_token: activationToken, response };
+    return { activation_token: token, response };
   }
   // activate user account
   async activateUserAccount(activationDto: ActivationDto, response: Response) {
-    const { activationToken } = activationDto;
+    const { token, activationToken } = activationDto;
     const newUser: { user: UserData; activationToken: string } =
-      await this.jwtService.verify(activationToken, {
+      await this.jwtService.verify(token, {
         secret: this.configService.get<string>('JWT_SEC'),
       });
     if (newUser.activationToken !== activationToken) {
