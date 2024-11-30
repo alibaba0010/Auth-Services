@@ -32,6 +32,8 @@ model Users {
   // id           String    @id @default(uuid())
   name         String
   email        String    @unique
+  contact      Float     @unique
+  address String
   password     String
   avatar Avatars?
   role         Role @default(USER)
