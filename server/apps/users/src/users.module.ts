@@ -11,6 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { UsersResolvers } from './users.resolver';
 import { EmailModule } from './email/email.module';
+import { EmailService } from './email/email.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -32,6 +33,7 @@ import { EmailModule } from './email/email.module';
     JwtService,
     PrismaService,
     UsersResolvers,
+    EmailService,
   ],
 })
 export class UsersModule {}
