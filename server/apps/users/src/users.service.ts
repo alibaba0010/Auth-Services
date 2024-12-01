@@ -134,6 +134,12 @@ export class UsersService {
     // const accessToken = await this.jwtService.sign({ id: user.id });
     return { user, accessToken };
   }
+  // get current user
+  async getCurrentUser(req: any) {
+    const { user, accessToken, refreshToken } = req;
+    console.log('getCurrentUser: ', { user, accessToken, refreshToken });
+    return { user, accessToken, refreshToken };
+  }
   // get all users
   async getUsers() {
     return this.prisma.users.findMany({});
