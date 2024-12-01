@@ -19,12 +19,10 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const graphqlContext = GqlExecutionContext.create(context);
     const { req } = graphqlContext.getContext();
-    const { accessToken, refreshToken } = req.headers as {
-      accessToken: string;
-      refreshToken: string;
-    };
 
-    //  const refreshToken = req.headers.refreshToken as string;
+    const accessToken = req.headers.accesstoken as string;
+    const refreshToken = req.headers.refreshtoken as string;
+
     if (!accessToken || !refreshToken) {
       throw new UnauthorizedException('Please login to get access');
     }
@@ -40,9 +38,9 @@ export class AuthGuard implements CanActivate {
     return true;
   }
   private async updateAccessToken(req: any) {
-    const refreshTokenData = req.headers.refreshToken as string;
+    const refreshTokenData = req.headers.refreshtoken as string;
     const decoded = await this.jwtService.verify(refreshTokenData, {
-      secret: this.configService.get<string>(''),
+      secret: this.configService.get<string>('JWT_REFRESH_SEC'),
     });
     if (!decoded) {
       throw new UnauthorizedException('Invalid refresh token, login again');
