@@ -148,4 +148,5 @@ export class UsersService {
   async getUsers() {
     return this.prisma.users.findMany({});
   }
+  //TODO: Logout user
 }
