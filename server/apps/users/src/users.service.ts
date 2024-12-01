@@ -6,6 +6,7 @@ import { PrismaService } from '../../../prisma/prisma.service';
 import { Response } from 'express';
 import * as bcrypt from 'bcryptjs';
 import { EmailService } from './email/email.service';
+import { AuthToken } from './utils/sendToken';
 interface UserData {
   name: string;
   email: string;
@@ -83,7 +84,6 @@ export class UsersService {
     const user = await this.prisma.users.create({
       data: { name: name, email, contact, password },
     });
-    console.log('User activated in user: ', user.id);
 
     return { user, response };
   }
@@ -108,18 +108,31 @@ export class UsersService {
       where: { email },
     });
     if (!user) {
-      throw new BadRequestException('Invalid credentials');
+      return {
+        user: null,
+        accessToken: null,
+        refreshToken: null,
+        error: { message: 'Invalid email' },
+      };
     }
     // check if the password is correct
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      throw new BadRequestException('Invalid credentials');
+      return {
+        user: null,
+        accessToken: null,
+        refreshToken: null,
+        error: { message: 'Invalid password' },
+      };
     }
     // create access token
-    // const accessToken = await this.jwtService.sign({ id: user.id });
+    const { accessToken } = new AuthToken(
+      this.configService,
+      this.jwtService,
+    ).accessToken(user);
 
     // const accessToken = await this.jwtService.sign({ id: user.id });
-    return { user };
+    return { user, accessToken };
   }
   // get all users
   async getUsers() {

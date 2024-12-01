@@ -45,11 +45,7 @@ export class UsersResolvers {
   async loginUser(
     @Args('loginInput') loginDto: LoginDto,
   ): Promise<LoginResponse> {
-    const user = await this.usersService.login(loginDto);
-    if (!user) {
-      throw new BadRequestException('Invalid credentials');
-    }
-    return { user };
+    return await this.usersService.login(loginDto);
   }
   @Query(() => [User])
   async getUsers() {
