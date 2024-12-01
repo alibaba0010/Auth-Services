@@ -130,9 +130,13 @@ export class UsersService {
       this.configService,
       this.jwtService,
     ).accessToken(user);
+    const { refreshToken } = new AuthToken(
+      this.configService,
+      this.jwtService,
+    ).accessToken(user);
 
     // const accessToken = await this.jwtService.sign({ id: user.id });
-    return { user, accessToken };
+    return { user, accessToken, refreshToken };
   }
   // get current user
   async getCurrentUser(req: any) {
