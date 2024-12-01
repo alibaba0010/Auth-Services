@@ -22,7 +22,7 @@ import { join } from 'path';
           from: 'alibabadeliveryapp.com',
         },
         template: {
-          dir: join(__dirname, '../../../email-templates'),
+          dir: join(__dirname, '../../../../server/apps/email-templates'),
           adapter: new EjsAdapter(),
           options: {
             strict: false,

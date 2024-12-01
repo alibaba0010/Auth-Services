@@ -70,9 +70,15 @@
     </div>
     <div class="email-body">
       <p>Hi <%= name %>,</p>
-      <p>Please use the link below to activate your account:</p>
-      <a class="button" href="<%= activation_token %>">Activate Account</a>
-      <p>This link will expire in 5 minutes.</p>
+      <p>
+        Thank you for registering with Becodemy. To activate your account,
+        please use the following activation code:
+      </p>
+      <h2><%= activationToken %></h2>
+      <p>
+        Please enter this code on the activation page within the next 5
+        minutes.
+      </p>
       <p>If you didn't create an account, please ignore this email.</p>
     </div>
     <div class="email-footer">
