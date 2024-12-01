@@ -30,16 +30,15 @@ export class UsersResolvers {
   }
   z;
   // acctivate user
-  @Mutation(() => RegisterResponse)
+  @Mutation(() => ActivationResponse)
   async activateUserAccount(
-    @Args('activationToken') activationDto: ActivationDto,
+    @Args('activationInput') activationDto: ActivationDto,
     @Context() context: { res: Response },
   ): Promise<ActivationResponse> {
-    const user = await this.usersService.activateUserAccount(
+    return await this.usersService.activateUserAccount(
       activationDto,
       context.res,
     );
-    return { user };
   }
   // login user
   @Mutation(() => LoginResponse)

@@ -80,10 +80,11 @@ export class UsersService {
       throw new BadRequestException('Invalid Activation Token ');
     }
     const { name, email, contact, password } = newUser.user;
-    console.log(`Name: ${name} email: ${email} password: ${password}`);
     const user = await this.prisma.users.create({
       data: { name: name, email, contact, password },
     });
+    console.log('User activated in user: ', user.id);
+
     return { user, response };
   }
   // CREATE ACTIVATION TOKEN
@@ -102,11 +103,21 @@ export class UsersService {
   // LOGIN USER
   async login(loginDto: LoginDto) {
     const { email, password } = loginDto;
-    // const user = await this.validateUser(email, password);
-    // if (!user) {
-    //   throw new Error('Invalid credentials');
-    // }
-    const user = { email, password };
+    // check if the email exist
+    const user = await this.prisma.users.findUnique({
+      where: { email },
+    });
+    if (!user) {
+      throw new BadRequestException('Invalid credentials');
+    }
+    // check if the password is correct
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      throw new BadRequestException('Invalid credentials');
+    }
+    // create access token
+    // const accessToken = await this.jwtService.sign({ id: user.id });
+
     // const accessToken = await this.jwtService.sign({ id: user.id });
     return { user };
   }
