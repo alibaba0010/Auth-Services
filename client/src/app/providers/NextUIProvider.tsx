@@ -5,7 +5,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { ReactNode } from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 
-const Providers = ({ children }: { children: ReactNode }) => {
+export function Providers({ children }: { children: ReactNode }) {
   return (
     <NextUIProvider>
       <NextThemesProvider attribute="class" defaultTheme="dark">
@@ -13,6 +13,4 @@ const Providers = ({ children }: { children: ReactNode }) => {
       </NextThemesProvider>
     </NextUIProvider>
   );
-};
-
-export default Providers;
+}
