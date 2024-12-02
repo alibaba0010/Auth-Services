@@ -141,7 +141,6 @@ export class UsersService {
   // get current user
   async getCurrentUser(req: any) {
     const { user, accessToken, refreshToken } = req;
-    console.log('getCurrentUser: ', { user, accessToken, refreshToken });
     return { user, accessToken, refreshToken };
   }
   // get all users
@@ -149,4 +148,11 @@ export class UsersService {
     return this.prisma.users.findMany({});
   }
   //TODO: Logout user
+
+  async logoutUser(req: any) {
+    req.user = null;
+    req.accessToken = null;
+    req.refreshToken = null;
+    return { message: 'User logged out successfully' };
+  }
 }

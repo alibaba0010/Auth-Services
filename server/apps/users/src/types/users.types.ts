@@ -33,3 +33,11 @@ export class LoginResponse {
   @Field(() => Errortype, { nullable: true })
   error?: Errortype;
 }
+
+@ObjectType()
+export class LogoutResponse {
+  @Field()
+  message?: string;
+  @Field(() => Errortype, { nullable: true })
+  error?: Errortype;
+}

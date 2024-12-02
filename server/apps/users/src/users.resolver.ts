@@ -4,6 +4,7 @@ import { UsersService } from './users.service';
 import {
   ActivationResponse,
   LoginResponse,
+  LogoutResponse,
   RegisterResponse,
 } from './types/users.types';
 import { ActivationDto, LoginDto, RegisterDto } from './dto/user.dto';
@@ -53,6 +54,12 @@ export class UsersResolvers {
   @UseGuards(AuthGuard)
   async currentUser(@Context() context: { req: Request }) {
     return await this.usersService.getCurrentUser(context.req);
+  }
+
+  @Query(() => LogoutResponse)
+  @UseGuards(AuthGuard)
+  async logOut(@Context() context: { req: Request }) {
+    return this.usersService.logoutUser(context.req);
   }
   @Query(() => [User])
   async getUsers() {
