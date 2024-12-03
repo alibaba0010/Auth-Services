@@ -1,4 +1,4 @@
-import { LOGIN_USER } from "@/src/graphql/actions/login.actions";
+import { LOGIN_USER } from "../../graphql/actions/login.actions";
 import styles from "@/src/utils/style";
 import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";

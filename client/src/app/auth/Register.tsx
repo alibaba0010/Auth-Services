@@ -10,6 +10,8 @@ import {
   AiOutlineEyeInvisible,
 } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
+import { useMutation } from "@apollo/client";
+import { REGISTER_USER } from "../../graphql/actions/register.actions";
 
 const formSchema = z.object({
   name: z
@@ -37,7 +39,8 @@ const Register = ({
   setActiveState: (e: string) => void;
 }) => {
   const [show, setShow] = useState(false);
-
+  const [registerUsermutation, { loading, error, data }] =
+    useMutation(REGISTER_USER);
   const {
     register,
     handleSubmit,
@@ -49,6 +52,8 @@ const Register = ({
 
   const onSubmitHandler = (data: RegisterSchema) => {
     console.log("Data saved", data);
+    try {
+    } catch (error) {}
     reset();
   };
 
