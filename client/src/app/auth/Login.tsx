@@ -1,4 +1,6 @@
+import { LOGIN_USER } from "@/src/graphql/actions/login.actions";
 import styles from "@/src/utils/style";
+import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,7 +19,7 @@ const formSchema = z.object({
 type LoginSchema = z.infer<typeof formSchema>;
 
 const Login = ({ setActiveState }: { setActiveState: (e: string) => void }) => {
-  // const [Login, { loading }] = useMutation(LOGIN_USER);
+  const [Login, { loading }] = useMutation(LOGIN_USER);
 
   const [show, setShow] = useState(false);
 
@@ -88,7 +90,7 @@ const Login = ({ setActiveState }: { setActiveState: (e: string) => void }) => {
           <input
             type="submit"
             value="Login"
-            disabled={isSubmitting} // || loading
+            disabled={isSubmitting || loading}
             className={`${styles.button} mt-3`}
           />
         </div>
