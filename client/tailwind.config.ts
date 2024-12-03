@@ -14,6 +14,10 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        Poppins: ["var(--font-Poppins)"],
+        Inter: ["var(--font-inter)"],
+      },
     },
   },
   darkMode: "class",
