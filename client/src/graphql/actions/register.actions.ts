@@ -1,8 +1,8 @@
 "use client";
 
-import { gql } from "@apollo/client";
+import { DocumentNode, gql } from "@apollo/client";
 
-export const REGISTER_USER = gql`
+export const REGISTER_USER: DocumentNode = gql`
   mutation RegisterUser(
     $name: String!
     $password: String!
