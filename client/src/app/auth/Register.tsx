@@ -12,6 +12,7 @@ import {
 import { FcGoogle } from "react-icons/fc";
 import { useMutation } from "@apollo/client";
 import { REGISTER_USER } from "../../graphql/actions/register.actions";
+import toast from "react-hot-toast";
 
 const formSchema = z.object({
   name: z
@@ -50,11 +51,19 @@ const Register = ({
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmitHandler = (data: RegisterSchema) => {
+  const onSubmitHandler = async (data: RegisterSchema) => {
     console.log("Data saved", data);
-    try {
-    } catch (error) {}
+    const res = await registerUsermutation({
+      variables: data,
+    });
+    console.log("Res: ", JSON.stringify(res));
+    console.log("Response: ", res.data);
+    toast.success("Please check your email for activation code");
     reset();
+    try {
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (
