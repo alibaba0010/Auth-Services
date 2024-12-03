@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers/NextUIProvider";
+import { Toaster } from "react-hot-toast";
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -37,6 +38,7 @@ export default function RootLayout({
       > */}
       <body className={`${poppins.variable} ${inter.variable}`}>
         <Providers>{children}</Providers>
+        <Toaster position="top-center" reverseOrder={false} />
       </body>
     </html>
   );
