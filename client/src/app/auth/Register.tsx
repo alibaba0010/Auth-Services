@@ -13,24 +13,7 @@ import { FcGoogle } from "react-icons/fc";
 import { useMutation } from "@apollo/client";
 import { REGISTER_USER } from "../../graphql/actions/register.actions";
 import toast from "react-hot-toast";
-
-const formSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(3, "Name must be more than 3 characters")
-    .max(20, "Contact must be less than 15 digits"),
-
-  email: z.string().email(),
-  contact: z
-    .number()
-    .min(11, "Contact must be at least 11 digits")
-    .max(15, "Contact must be less than 15 digits"),
-  password: z
-    .string()
-    .min(8, "Password must be at least 8characters long!")
-    .max(15, "Contact must be less than 15 digits"),
-});
+import { formSchema } from "../validators/validator";
 
 type RegisterSchema = z.infer<typeof formSchema>;
 
@@ -40,8 +23,7 @@ const Register = ({
   setActiveState: (e: string) => void;
 }) => {
   const [show, setShow] = useState(false);
-  const [registerUsermutation, { loading, error, data }] =
-    useMutation(REGISTER_USER);
+  const [registerUsermutation, { loading }] = useMutation(REGISTER_USER);
   const {
     register,
     handleSubmit,
@@ -53,14 +35,15 @@ const Register = ({
 
   const onSubmitHandler = async (data: RegisterSchema) => {
     console.log("Data saved", data);
-    const res = await registerUsermutation({
-      variables: data,
-    });
-    console.log("Res: ", JSON.stringify(res));
-    console.log("Response: ", res.data);
-    toast.success("Please check your email for activation code");
-    reset();
     try {
+      const res = await registerUsermutation({
+        variables: data,
+      });
+      const { activation_token } = res.data.registerUser;
+      localStorage.setItem("activation_token", activation_token);
+      console.log("Response: ", res.data.registerUser);
+      toast.success("Please check your email for activation code");
+      reset();
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -99,12 +82,12 @@ const Register = ({
             placeholder="+8801*******"
             className={`${styles.input}`}
           />
-          {errors.contact && (
-            <span className="text-red-500 block mt-1">
-              {`${errors.contact.message}`}
-            </span>
-          )}
         </div>
+        {errors.contact && (
+          <span className="text-red-500 block mt-1">
+            {`${errors.contact.message}`}
+          </span>
+        )}
         <div className="w-full mt-5 relative mb-1">
           <label htmlFor="password" className={`${styles.label}`}>
             Enter your password
@@ -136,7 +119,7 @@ const Register = ({
           <input
             type="submit"
             value="Register"
-            disabled={isSubmitting} // || loading
+            disabled={isSubmitting || loading}
             className={`${styles.button} mt-3`}
           />
         </div>

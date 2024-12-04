@@ -10,7 +10,7 @@ export const REGISTER_USER: DocumentNode = gql`
     $contact: Float!
   ) {
     registerUser(
-      registerDto: {
+      registerInput: {
         name: $name
         email: $email
         password: $password
