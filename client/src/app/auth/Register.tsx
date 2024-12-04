@@ -44,6 +44,7 @@ const Register = ({
       console.log("Response: ", res.data.registerUser);
       toast.success("Please check your email for activation code");
       reset();
+      setActiveState("Verification");
     } catch (error: any) {
       toast.error(error.message);
     }

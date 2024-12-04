@@ -4,7 +4,7 @@ import Register from "../app/auth/Register";
 import Verification from "../app/auth/Verifications";
 
 const Auth = () => {
-  const [activeState, setActiveState] = useState("Verification");
+  const [activeState, setActiveState] = useState("Login");
 
   return (
     <div

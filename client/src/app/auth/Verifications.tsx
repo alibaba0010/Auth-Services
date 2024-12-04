@@ -37,15 +37,15 @@ const Verification: FC<Props> = ({ setActiveState }) => {
   const verificationHandler = async () => {
     const verificationNumber = Object.values(verifyNumber).join("");
     console.log("Verification number: " + verificationNumber);
-    const activationToken = localStorage.getItem("activation_token");
+    const token = localStorage.getItem("activation_token");
 
     if (verificationNumber.length !== 4) {
       setInvalidError(true);
       return;
     } else {
       const data = {
-        activationToken,
-        activationCode: verificationNumber,
+        token,
+        activationToken: verificationNumber,
       };
       try {
         await ActivateUser({
