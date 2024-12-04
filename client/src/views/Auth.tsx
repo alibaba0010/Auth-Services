@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Login from "../app/auth/Login";
 import Register from "../app/auth/Register";
+import Verification from "../app/auth/Verifications";
 
 const Auth = () => {
-  const [activeState, setActiveState] = useState("Login");
+  const [activeState, setActiveState] = useState("Verification");
 
   return (
     <div
@@ -14,6 +15,9 @@ const Auth = () => {
         {activeState === "Login" && <Login setActiveState={setActiveState} />}
         {activeState === "Register" && (
           <Register setActiveState={setActiveState} />
+        )}
+        {activeState === "Verification" && (
+          <Verification setActiveState={setActiveState} />
         )}
       </div>
     </div>
