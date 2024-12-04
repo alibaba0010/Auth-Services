@@ -1,9 +1,9 @@
-import { ACTIVATE_USER } from "@/src/graphql/actions/activation.action";
 import styles from "@/src/utils/style";
 import { useMutation } from "@apollo/client";
 import { FC, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
+import { ACTIVATE_USER } from "../../graphql/actions/activation.actions";
 
 type Props = {
   setActiveState: (route: string) => void;
@@ -36,6 +36,7 @@ const Verification: FC<Props> = ({ setActiveState }) => {
 
   const verificationHandler = async () => {
     const verificationNumber = Object.values(verifyNumber).join("");
+    console.log("Verification number: " + verificationNumber);
     const activationToken = localStorage.getItem("activation_token");
 
     if (verificationNumber.length !== 4) {
@@ -91,7 +92,7 @@ const Verification: FC<Props> = ({ setActiveState }) => {
             className={`w-[65px] h-[65px] bg-transparent border-[3px] rounded-[10px] flex items-center text-white justify-center text-[18px] font-Poppins outline-none text-center ${
               invalidError ? "shake border-red-500" : "border-white"
             }`}
-            placeholder=""
+            placeholder="X"
             maxLength={1}
             value={verifyNumber[key as keyof VerifyNumber]}
             onChange={(e) => handleInputChange(index, e.target.value)}
