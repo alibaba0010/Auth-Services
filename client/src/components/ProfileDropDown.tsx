@@ -47,7 +47,7 @@ const ProfileDropDown = () => {
           onClick={() => setOpen(!open)}
         />
       )}
-      {open && <Auth />}
+      {open && <Auth setOpen={setOpen} />}
     </div>
   );
 };

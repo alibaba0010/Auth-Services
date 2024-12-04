@@ -34,7 +34,6 @@ const Register = ({
   });
 
   const onSubmitHandler = async (data: RegisterSchema) => {
-    console.log("Data saved", data);
     try {
       const res = await registerUsermutation({
         variables: data,
