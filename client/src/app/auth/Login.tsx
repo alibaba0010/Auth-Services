@@ -4,6 +4,7 @@ import { useMutation } from "@apollo/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import {
   AiFillGithub,
   AiOutlineEye,
@@ -11,9 +12,20 @@ import {
 } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { z } from "zod";
+
+const passwordRegex = new RegExp(
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+);
 const formSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8, "Password must be at least 8 characters long!"),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long!")
+    .max(15, "Password must be less than 20 characters")
+    .refine((value) => passwordRegex.test(value), {
+      message:
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+    }),
 });
 
 type LoginSchema = z.infer<typeof formSchema>;
@@ -32,9 +44,23 @@ const Login = ({ setActiveState }: { setActiveState: (e: string) => void }) => {
     resolver: zodResolver(formSchema),
   });
 
-  const onSubmitHandler = (data: LoginSchema) => {
+  const onSubmitHandler = async (data: LoginSchema) => {
     console.log("Data saved", data);
-    reset();
+    try {
+      const res = await Login({
+        variables: data,
+      });
+      const { message } = res.data.loginUser.error;
+      if (message) {
+        toast.error(message);
+        return;
+      }
+      console.log("Response: ", res.data);
+      toast.success("Login Successfullly");
+      reset();
+    } catch (error: any) {
+      toast.error(error.message);
+    }
   };
 
   return (
