@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import Cookies from "js-cookie";
 import {
   AiFillGithub,
   AiOutlineEye,
@@ -51,12 +52,17 @@ const Login = ({ setActiveState }: { setActiveState: (e: string) => void }) => {
         variables: data,
       });
       const { message } = res.data.loginUser.error;
+      console.log("Response: ", res.data);
       if (message) {
         toast.error(message);
         return;
       }
-      console.log("Response: ", res.data);
       toast.success("Login Successfullly");
+      //TODO: set access and refresh token
+      const { accessToken, refreshToken } = res.data.loginUser;
+      Cookies.set("access_token", accessToken);
+      Cookies.set("refresh_token", refreshToken);
+      Cookies.set("name", "value");
       reset();
     } catch (error: any) {
       toast.error(error.message);
