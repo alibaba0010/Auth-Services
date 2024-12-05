@@ -18,7 +18,9 @@ const Auth = ({ setOpen }: { setOpen: (e: boolean) => void }) => {
       onClick={handleClose}
     >
       <div className="w-[500px] bg-slate-900 rounded shadow-sm p-3">
-        {activeState === "Login" && <Login setActiveState={setActiveState} />}
+        {activeState === "Login" && (
+          <Login setActiveState={setActiveState} setOpen={setOpen} />
+        )}
         {activeState === "Register" && (
           <Register setActiveState={setActiveState} />
         )}

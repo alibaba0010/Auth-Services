@@ -31,7 +31,13 @@ const formSchema = z.object({
 
 type LoginSchema = z.infer<typeof formSchema>;
 
-const Login = ({ setActiveState }: { setActiveState: (e: string) => void }) => {
+const Login = ({
+  setActiveState,
+  setOpen,
+}: {
+  setActiveState: (e: string) => void;
+  setOpen: (e: boolean) => void;
+}) => {
   const [Login, { loading }] = useMutation(LOGIN_USER);
 
   const [show, setShow] = useState(false);
@@ -51,19 +57,20 @@ const Login = ({ setActiveState }: { setActiveState: (e: string) => void }) => {
       const res = await Login({
         variables: data,
       });
-      const { message } = res.data.loginUser.error;
+      const { error, accessToken, refreshToken } = res.data.loginUser;
       console.log("Response: ", res.data);
-      if (message) {
-        toast.error(message);
+      if (error) {
+        toast.error(error.message);
         return;
       }
       toast.success("Login Successfullly");
       //TODO: set access and refresh token
-      const { accessToken, refreshToken } = res.data.loginUser;
       Cookies.set("access_token", accessToken);
       Cookies.set("refresh_token", refreshToken);
       Cookies.set("name", "value");
+      setOpen(false);
       reset();
+      window.location.reload();
     } catch (error: any) {
       toast.error(error.message);
     }
