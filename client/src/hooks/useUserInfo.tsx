@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
-import { GET_USER } from "../../graphql/actions/user.actions";
+import { GET_USER } from "../graphql/actions/user.actions";
 
-const User = () => {
+const useUserInfo = () => {
   const { loading, data } = useQuery(GET_USER);
   return {
     loading,
@@ -9,4 +9,4 @@ const User = () => {
   };
 };
 
-export default User;
+export default useUserInfo;
