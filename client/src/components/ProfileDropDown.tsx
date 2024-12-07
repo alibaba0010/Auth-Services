@@ -6,10 +6,13 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
+import Cookies from "js-cookie";
+
 import React, { useEffect, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import Auth from "../views/Auth";
 import useUserInfo from "../hooks/useUserInfo";
+import toast from "react-hot-toast";
 
 const ProfileDropDown = () => {
   const [signedIn, setsignedIn] = useState(false);
@@ -18,7 +21,16 @@ const ProfileDropDown = () => {
   useEffect(() => {
     if (!loading) setsignedIn(!!user);
   }, [loading, user]);
-  const logoutHandler = async () => {};
+  const logoutHandler = async () => {
+    Cookies.remove("access_token");
+    Cookies.remove("refresh_token");
+    // logout logic goes here
+    // setsignedIn(false);
+    // setOpen(false);
+    toast.success("Logged out successfully");
+
+    window.location.reload();
+  };
   return (
     <div className="flex items-center gap-4">
       {signedIn ? (

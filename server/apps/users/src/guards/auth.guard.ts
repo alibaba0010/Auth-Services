@@ -27,13 +27,22 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException('Please login to get access');
     }
     if (accessToken) {
+      // const decoded = this.jwtService.decode(accessToken);
+
       const decode = await this.jwtService.verify(accessToken, {
         secret: this.configService.get<string>('JWT_ACESS_SEC'),
       });
       if (!decode) {
         throw new UnauthorizedException('Invalid access, login again');
       }
-      await this.updateAccessToken(req);
+      console.log('Decoded: ' + JSON.stringify(decode));
+      const expirationTime = decode?.exp;
+
+      if (expirationTime * 1000 < Date.now()) {
+        await this.updateAccessToken(req);
+      } else {
+        throw new UnauthorizedException('Login again');
+      }
     }
     return true;
   }

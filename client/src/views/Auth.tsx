@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Login from "../app/auth/Login";
 import Register from "../app/auth/Register";
 import Verification from "../app/auth/Verifications";
+import ForgotPassword from "../app/auth/ForgotPassword";
 
 const Auth = ({ setOpen }: { setOpen: (e: boolean) => void }) => {
   const [activeState, setActiveState] = useState("Login");
@@ -26,6 +27,9 @@ const Auth = ({ setOpen }: { setOpen: (e: boolean) => void }) => {
         )}
         {activeState === "Verification" && (
           <Verification setActiveState={setActiveState} />
+        )}
+        {activeState === "Forgot-Password" && (
+          <ForgotPassword setActiveState={setActiveState} />
         )}
       </div>
     </div>

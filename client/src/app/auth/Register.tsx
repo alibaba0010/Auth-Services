@@ -1,6 +1,6 @@
 import styles from "@/src/utils/style";
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { z } from "zod";
 
 import { useForm } from "react-hook-form";
@@ -17,11 +17,11 @@ import { formSchema } from "../validators/validator";
 
 type RegisterSchema = z.infer<typeof formSchema>;
 
-const Register = ({
-  setActiveState,
-}: {
-  setActiveState: (e: string) => void;
-}) => {
+type Props = {
+  setActiveState: (route: string) => void;
+};
+
+const Register: FC<Props> = ({ setActiveState }) => {
   const [show, setShow] = useState(false);
   const [registerUsermutation, { loading }] = useMutation(REGISTER_USER);
   const {

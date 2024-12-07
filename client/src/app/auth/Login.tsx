@@ -67,7 +67,6 @@ const Login = ({
       //TODO: set access and refresh token
       Cookies.set("access_token", accessToken);
       Cookies.set("refresh_token", refreshToken);
-      Cookies.set("name", "value");
       setOpen(false);
       reset();
       window.location.reload();
