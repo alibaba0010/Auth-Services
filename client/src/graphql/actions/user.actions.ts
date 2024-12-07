@@ -3,7 +3,7 @@ import { DocumentNode } from "graphql";
 
 export const GET_USER: DocumentNode = gql`
   query {
-    getLoggedInUser {
+    currentUser {
       user {
         id
         name
@@ -11,6 +11,9 @@ export const GET_USER: DocumentNode = gql`
         password
         address
         contact
+        avatars {
+          url
+        }
       }
       accessToken
       refreshToken

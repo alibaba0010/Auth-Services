@@ -5,7 +5,7 @@ const useUserInfo = () => {
   const { loading, data } = useQuery(GET_USER);
   return {
     loading,
-    user: data?.getLoggedInUser?.user,
+    user: data?.currentUser?.user,
   };
 };
 
