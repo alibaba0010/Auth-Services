@@ -181,8 +181,9 @@ export class UsersService {
     if (!user) {
       throw new BadRequestException('User not found');
     }
-    const { id } = user;
+    const { id, name } = user;
     const passwordResetToken = this.resetPassword(id);
+    console.log('Token: ' + passwordResetToken);
     const passwordResetUrl =
       this.configService.get<string>('CLIENT_URL') +
       `/reset-password?verify=${passwordResetToken}`;
@@ -190,10 +191,11 @@ export class UsersService {
     const emailOptions = {
       email,
       subject: 'Reset your Password',
-      name: user.name,
+      name,
       activationToken: passwordResetUrl,
-      template: './password-reset-email',
+      template: './forgot-password',
     };
     await this.emailService.sendEmail(emailOptions);
+    return { message: 'Chck your email to reset your password' };
   }
 }
