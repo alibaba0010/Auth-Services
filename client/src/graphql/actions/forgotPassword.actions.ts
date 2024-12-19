@@ -2,8 +2,8 @@ import { gql } from "@apollo/client";
 import { DocumentNode } from "graphql";
 
 export const FORGOT_PASSWORD: DocumentNode = gql`
-  mutation LoginUser($email: String!) {
-    forgotPassword(loginInput: { email: $email }) {
+  mutation forgotPassword($email: String!) {
+    forgotPassword(forgotPasswordInput: { email: $email }) {
       message
     }
   }
