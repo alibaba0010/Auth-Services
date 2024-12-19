@@ -197,8 +197,26 @@ export class UsersService {
       template: './forgot-password',
     };
     await this.emailService.sendEmail(emailOptions);
-    return { message: 'Chck your email to reset your password' };
+    return { message: 'Check your email to reset your password' };
   }
   //TODO: reset password functionality
-  async resetPassword(passwordResetDto: ResetPasswordDto) {}
+  async resetPasswordLogic(passwordResetDto: ResetPasswordDto) {
+    const { password, confirmPassword, token } = passwordResetDto;
+    console.log('Tokn: ', token);
+    const decoded = this.jwtService.decode(token);
+    console.log('Decoded: ', decoded);
+    if (!password || !confirmPassword)
+      throw new BadRequestException(
+        'Password and confirm passowrd not the same',
+      );
+    if (!decoded) throw new BadRequestException('invalid token');
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // update user
+    await this.prisma.users.update({
+      where: { id: decoded.id },
+      data: { password: hashedPassword },
+    });
+    return { message: 'Password updated successfully' };
+  }
 }

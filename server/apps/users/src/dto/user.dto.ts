@@ -74,4 +74,8 @@ export class ResetPasswordDto {
   @MinLength(8, { message: 'Password must be at least 8 characters' })
   @MaxLength(20, { message: 'Password must be at most 50 characters' })
   confirmPassword: string;
+
+  @Field()
+  @IsNotEmpty({ message: 'Token is required' })
+  token: string;
 }

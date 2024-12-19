@@ -7,12 +7,14 @@ import {
   LoginResponse,
   LogoutResponse,
   RegisterResponse,
+  ResetPasswordResponse,
 } from './types/users.types';
 import {
   ActivationDto,
   ForgotPasswordDto,
   LoginDto,
   RegisterDto,
+  ResetPasswordDto,
 } from './dto/user.dto';
 import { Response } from 'express';
 import { User } from './entities/user.entity';
@@ -76,8 +78,14 @@ export class UsersResolvers {
   @Mutation(() => ForgotPasswordResponse)
   async forgotPassword(
     @Args('forgotPasswordInput') forgotPasswordDto: ForgotPasswordDto,
-    @Context() context: { res: Response },
   ): Promise<ForgotPasswordResponse> {
     return this.usersService.forgotPassword(forgotPasswordDto);
+  }
+  // reset password
+  @Mutation(() => ResetPasswordResponse)
+  async resetPassword(
+    @Args('resetPasswordInput') resetPasswordDto: ResetPasswordDto,
+  ): Promise<ResetPasswordResponse> {
+    return this.usersService.resetPasswordLogic(resetPasswordDto);
   }
 }
