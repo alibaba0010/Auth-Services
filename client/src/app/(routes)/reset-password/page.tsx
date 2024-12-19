@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import ResetPassword from "../../auth/ResetPassword";
 
 interface SearchParamsProps {
   searchParams: {
@@ -6,8 +7,13 @@ interface SearchParamsProps {
   };
 }
 const Reset_Password: FC<SearchParamsProps> = ({ searchParams }) => {
-  console.log("Sarch = " + searchParams);
-  return <div>Reset-Password</div>;
+  const token = searchParams["verify"] ?? "";
+  console.log("Token: " + token);
+  return (
+    <div>
+      <ResetPassword token={token}></ResetPassword>;
+    </div>
+  );
 };
 
 export default Reset_Password;
