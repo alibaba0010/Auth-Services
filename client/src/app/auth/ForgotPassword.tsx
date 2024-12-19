@@ -38,6 +38,7 @@ const ForgotPassword = ({
       });
       toast.success("Please check your email to reset your password!");
       reset();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(error);
       toast.error(error.message);

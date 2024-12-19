@@ -44,6 +44,7 @@ const Register: FC<Props> = ({ setActiveState }) => {
       toast.success("Please check your email for activation code");
       reset();
       setActiveState("Verification");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       toast.error(error.message);
     }

@@ -54,6 +54,7 @@ const Verification: FC<Props> = ({ setActiveState }) => {
         localStorage.removeItem("activation_token");
         toast.success("Account activated successfully!");
         setActiveState("Login");
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (error: any) {
         toast.error(error.message);
       }

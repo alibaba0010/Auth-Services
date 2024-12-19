@@ -61,6 +61,7 @@ const ResetPassword = ({ token }: { token: string }) => {
       });
       toast.success("Password reset successfully!");
       reset();
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.log(error);
       toast.error(error.message);
