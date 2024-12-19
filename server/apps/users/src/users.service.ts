@@ -6,6 +6,7 @@ import {
   ForgotPasswordDto,
   LoginDto,
   RegisterDto,
+  ResetPasswordDto,
 } from './dto/user.dto';
 import { PrismaService } from '../../../prisma/prisma.service';
 import { Response } from 'express';
@@ -198,4 +199,6 @@ export class UsersService {
     await this.emailService.sendEmail(emailOptions);
     return { message: 'Chck your email to reset your password' };
   }
+  //TODO: reset password functionality
+  async resetPassword(passwordResetDto: ResetPasswordDto) {}
 }
