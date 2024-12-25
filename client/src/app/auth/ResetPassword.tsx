@@ -24,7 +24,6 @@ const formSchema = z
           "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
       }),
     confirmPassword: z.string(),
-    token: z.string(),
   })
   .refine(
     (values) => {
@@ -37,7 +36,7 @@ const formSchema = z
   );
 type ResetPasswordSchema = z.infer<typeof formSchema>;
 
-const ResetPassword = ({ token }: { token: string }) => {
+const ResetPassword = ({ token }: { token: string | string[] }) => {
   const [resetPassword, { loading }] = useMutation(RESET_PASSWORD);
   const [show, setShow] = useState(false);
   const [confirmPasswordshow, setconfirmPasswordshow] = useState(false);
@@ -50,7 +49,7 @@ const ResetPassword = ({ token }: { token: string }) => {
     resolver: zodResolver(formSchema),
     // defaultValues: { token },
   });
-  const onSubmit = async (data: ResetPasswordSchema) => {
+  const onSubmit = async (data: ResetPasswordSchema): Promise<void> => {
     try {
       await resetPassword({
         variables: {
@@ -59,7 +58,7 @@ const ResetPassword = ({ token }: { token: string }) => {
           token,
         },
       });
-      toast.success("Password reset successfully!");
+      toast.success("Password reset successfully!, Login now");
       reset();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
@@ -101,7 +100,7 @@ const ResetPassword = ({ token }: { token: string }) => {
           )}
           <div className="w-full mt-5 relative mb-1">
             <label htmlFor="confirmPassword" className={`${styles.label}`}>
-              Enter your confirm password
+              Confirm your password
             </label>
             <input
               {...register("confirmPassword")}

@@ -1,3 +1,4 @@
+"use client";
 import React, { FC } from "react";
 import ResetPassword from "../../auth/ResetPassword";
 
@@ -7,11 +8,13 @@ interface SearchParamsProps {
   };
 }
 const Reset_Password: FC<SearchParamsProps> = ({ searchParams }) => {
-  const token = searchParams["verify"] ?? "";
+  const token = (searchParams["verify"] as string) ?? "";
+
+  // const token = searchParams["verify"] ?? "";
   console.log("Token: " + token);
   return (
     <div>
-      <ResetPassword token={token}></ResetPassword>;
+      <ResetPassword token={token} />
     </div>
   );
 };

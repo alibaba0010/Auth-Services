@@ -209,7 +209,7 @@ export class UsersService {
       throw new BadRequestException(
         'Password and confirm passowrd not the same',
       );
-    if (!decoded || decoded.exp < Date.now())
+    if (!decoded || decoded.exp * 1000 < Date.now())
       throw new BadRequestException('invalid token');
     const hashedPassword = await bcrypt.hash(password, 10);
 
