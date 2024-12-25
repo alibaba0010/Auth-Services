@@ -1,3 +1,4 @@
+// server-side component server
 import type { Metadata } from "next";
 // import localFont from "next/font/local";
 import { Inter, Poppins } from "next/font/google";
