@@ -13,6 +13,7 @@ import {
 } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { z } from "zod";
+import { signIn } from "next-auth/react";
 
 const passwordRegex = new RegExp(
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
@@ -139,7 +140,7 @@ const Login = ({
         </h5>
         <div
           className="flex items-center justify-center my-3"
-          // onClick={() => signIn()}
+          onClick={() => signIn()}
         >
           <FcGoogle size={30} className="cursor-pointer mr-2" />
           <AiFillGithub size={30} className="cursor-pointer ml-2" />
