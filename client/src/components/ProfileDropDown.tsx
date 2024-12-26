@@ -13,7 +13,7 @@ import { CgProfile } from "react-icons/cg";
 import Auth from "../views/Auth";
 import useUserInfo from "../hooks/useUserInfo";
 import toast from "react-hot-toast";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { registerUser } from "../actions/registerUser";
 
 const ProfileDropDown = () => {
@@ -70,7 +70,11 @@ const ProfileDropDown = () => {
             <DropdownItem key="team_settings">
               Apply for seller account
             </DropdownItem>
-            <DropdownItem key="logout" color="danger" onClick={logoutHandler}>
+            <DropdownItem
+              key="logout"
+              color="danger"
+              onClick={() => logoutHandler || signOut()}
+            >
               Log Out
             </DropdownItem>
           </DropdownMenu>
