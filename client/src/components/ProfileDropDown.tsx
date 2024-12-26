@@ -14,18 +14,27 @@ import Auth from "../views/Auth";
 import useUserInfo from "../hooks/useUserInfo";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
+import { registerUser } from "../actions/registerUser";
 
 const ProfileDropDown = () => {
   const [signedIn, setsignedIn] = useState(false);
   const [open, setOpen] = useState(false);
   const { user, loading } = useUserInfo();
   const { data } = useSession();
-  console.log("Data", data);
 
   useEffect(() => {
     if (!loading) setsignedIn(!!user);
-    if (data) setsignedIn(true);
+    if (data) {
+      setsignedIn(true);
+      addUser(data.user);
+    }
   }, [data, loading, user]);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const addUser = async (user: any) => {
+    await registerUser(user);
+  };
+
   const logoutHandler = async () => {
     Cookies.remove("access_token");
     Cookies.remove("refresh_token");

@@ -32,9 +32,9 @@ model Users {
   // id           String    @id @default(uuid())
   name         String
   email        String    @unique
-  contact      Float     @unique
+  contact      Float?     @unique
   address String?
-  password     String
+  password     String?
   avatar Avatars?
   role         Role @default(USER)
   createdAt DateTime @default(now())
