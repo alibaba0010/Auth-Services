@@ -21,10 +21,10 @@ const ProfileDropDown = () => {
   const [open, setOpen] = useState(false);
   const { user, loading } = useUserInfo();
   const { data } = useSession();
-
   useEffect(() => {
     if (!loading) setsignedIn(!!user);
     if (data) {
+      console.log("dta: ", data);
       setsignedIn(true);
       addUser(data.user);
     }
@@ -32,6 +32,7 @@ const ProfileDropDown = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const addUser = async (user: any) => {
+    // console.log("Users added: ", user);
     await registerUser(user);
   };
 
@@ -73,7 +74,7 @@ const ProfileDropDown = () => {
             <DropdownItem
               key="logout"
               color="danger"
-              onClick={() => logoutHandler || signOut()}
+              onClick={() => signOut() || logoutHandler}
             >
               Log Out
             </DropdownItem>

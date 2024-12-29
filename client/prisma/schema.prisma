@@ -32,7 +32,7 @@ model Users {
   // id           String    @id @default(uuid())
   name         String
   email        String    @unique
-  contact      Float?     @unique
+  contact      Float?     
   address String?
   password     String?
   avatar Avatars?
