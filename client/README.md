@@ -27,7 +27,7 @@ This project is the client-side application for the Auth-Services system. It pro
 
 1. Start the development server:
    ```sh
-   npm start
+   npm run dev
    ```
 2. Open your browser and navigate to `http://localhost:3000`.
 

@@ -17,7 +17,7 @@ export class EmailService {
   async sendEmail(options: emailOptions): Promise<any> {
     const { subject, name, email, activationToken, template } = options;
     await this.mailerService.sendMail({
-      // from: this.configService.get('EMAIL_USER'),
+      from: this.configService.get('EMAIL_USER'),
       to: email,
       subject,
       template,
