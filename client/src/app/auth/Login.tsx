@@ -53,7 +53,6 @@ const Login = ({
   });
 
   const onSubmitHandler = async (data: LoginSchema) => {
-    console.log("Data saved", data);
     try {
       const res = await Login({
         variables: data,

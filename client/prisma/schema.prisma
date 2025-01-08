@@ -34,7 +34,7 @@ model Users {
   email        String    @unique
   contact      Float?     
   address String?
-  password     String?
+  password     String
   avatar Avatars?
   role         Role @default(USER)
   createdAt DateTime @default(now())

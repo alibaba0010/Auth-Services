@@ -41,27 +41,16 @@ export class UsersService {
       throw new BadRequestException('Email already exists');
     }
     // check contact number exists
-    const existingContact = await this.prisma.users.findUnique({
-      where: { contact },
-    });
-    if (existingContact) {
-      throw new BadRequestException('Contact number already exists');
-    }
+    // const existingContact = await this.prisma.users.findUnique({
+    //   where: { contact },
+    // });
+    // if (existingContact) {
+    //   throw new BadRequestException('Contact number already exists');
+    // }
 
     // hash password
-    // const hashedPassword = await this.configService.get('HASH_SECRET').then(
-    //   (secret) => bcrypt.hash(password, secret),
-    // );
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // create new user in database and return user data and response object
-    // const user = await this.usersRepository.create({
-    //   name,
-    //   email,
-    //   password: hashedPassword,
-    // });
-
-    // response.status(201).json({ message: 'User created successfully' });
     const user = { name, email, contact, password: hashedPassword };
     const { token, activationToken } = await this.createToken(user);
     const emailOptions = {
