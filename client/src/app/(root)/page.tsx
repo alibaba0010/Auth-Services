@@ -1,8 +1,8 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import Home from "@/src/views/Home";
 
-const Page = (props) => {
+const Page = () => {
   return (
     <div>
       <Home />
@@ -10,6 +10,6 @@ const Page = (props) => {
   );
 };
 
-Page.propTypes = {};
+// Page.propTypes = {};
 
 export default Page;
