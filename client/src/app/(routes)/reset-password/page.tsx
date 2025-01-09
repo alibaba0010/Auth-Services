@@ -4,7 +4,8 @@ import ResetPassword from "../../auth/ResetPassword";
 
 interface SearchParamsProps {
   searchParams: {
-    [key: string]: string | string[] | undefined;
+    // [key: string]: string | string[] | undefined;
+    [key: string]: string | undefined;
   };
 }
 const Reset_Password: FC<SearchParamsProps> = ({
