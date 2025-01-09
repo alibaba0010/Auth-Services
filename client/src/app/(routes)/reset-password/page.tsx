@@ -7,7 +7,9 @@ interface SearchParamsProps {
     [key: string]: string | string[] | undefined;
   };
 }
-const Reset_Password: FC<SearchParamsProps> = ({ searchParams }) => {
+const Reset_Password: FC<SearchParamsProps> = ({
+  searchParams,
+}): React.ReactElement => {
   const token = (searchParams["verify"] as string) ?? "";
 
   // const token = searchParams["verify"] ?? "";
