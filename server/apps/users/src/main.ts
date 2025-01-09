@@ -9,28 +9,19 @@ async function bootstrap() {
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'server/email-templates'));
   app.setViewEngine('ejs');
-  app.use(
-    helmet({
-      crossOriginEmbedderPolicy: false,
-      contentSecurityPolicy: {
-        directives: {
-          imgSrc: [
-            `'self'`,
-            'data:',
-            'apollo-server-landing-page.cdn.apollographql.com',
-          ],
-          scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
-          manifestSrc: [
-            `'self'`,
-            'apollo-server-landing-page.cdn.apollographql.com',
-          ],
-          frameSrc: [`'self'`, 'sandbox.embed.apollographql.com'],
-        },
-      },
-    }),
-  );
-
-  app.enableCors({ origin: '*' });
+  app.enableCors({
+    origin: '*',
+    credentials: true,
+    // all headers that client are allowed to use
+    allowedHeaders: [
+      'Accept',
+      'Authorization',
+      'Content-Type',
+      'X-Requested-With',
+      'apollo-require-preflight',
+    ],
+    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+  });
   await app.listen(process.env.port ?? 3001);
 }
 bootstrap();

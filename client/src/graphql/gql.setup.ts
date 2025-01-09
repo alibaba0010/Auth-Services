@@ -14,6 +14,7 @@ const authMiddleware = new ApolloLink((oparetion, forward) => {
     headers: {
       accessToken: Cookies.get("access_token"),
       refreshToken: Cookies.get("refresh_token"),
+      // "Apollo-Require-Preflight": "true",
     },
   });
   return forward(oparetion);
